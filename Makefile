@@ -8,6 +8,9 @@ lint:
 format:
 	black *.py
 
+test:
+	python -m pytest -vv
+
 train:
 	source .venv/bin/activate &&\
 		python training/train.py

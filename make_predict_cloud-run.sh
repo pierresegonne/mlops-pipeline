@@ -35,4 +35,4 @@ curl -d '{
 }'\
      -H "Content-Type: application/json" \
      -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-     -X POST https://mlops-pipeline-a4lydm5ysa-lz.a.run.app/predict
+     -X POST https://mlops-pipeline-a4lydm5ysa-ew.a.run.app/predict

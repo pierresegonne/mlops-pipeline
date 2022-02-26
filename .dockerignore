@@ -1,0 +1,15 @@
+# Ignore node modules
+**/node_modules
+
+*.env
+*.yml
+Dockerfile
+
+# Ignore python cache
+**/*.pyc
+
+# Ignore git files
+**/.git
+
+# Ignore all notebook checkpoints
+**/.ipynb_checkpoints

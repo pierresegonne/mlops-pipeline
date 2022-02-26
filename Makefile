@@ -14,3 +14,6 @@ test:
 train:
 	source .venv/bin/activate &&\
 		python training/train.py
+
+predict:
+	docker-compose up -d && sleep 5 && .  make_predict.sh

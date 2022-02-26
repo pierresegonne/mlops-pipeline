@@ -85,5 +85,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    print("2lkn12lkdm")
-    app.run(host="0.0.0.0", port=8888, debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)

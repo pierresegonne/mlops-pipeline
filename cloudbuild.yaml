@@ -1,27 +1,39 @@
 steps:
   # Install dependencies
   - name: python
+    id: 'Install requirements'
     entrypoint: pip
     args: ["install", "-r", "requirements.txt", "--user"]
 
   # Lint
   - name: python
+    id: 'Lint'
     entrypoint: python
     args: ["-m", "pylint", "--disable=R,C", "app.py"]
 
   # Run unit tests
   - name: python
+    id: 'Test'
     entrypoint: python
     args: ["-m", "pytest", "-vv", "--junitxml=${SHORT_SHA}_test_log.xml"]
 
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'eu.gcr.io/${PROJECT_ID}/${REPO_NAME}/mlops:${SHORT_SHA}', '.']
+    id: 'Build'
+    args: ['build', '--no-cache', '-t',
+           'eu.gcr.io/${PROJECT_ID}/${REPO_NAME}/${SHORT_SHA}', '.', '-f', 'Dockerfile']
 
   # Docker push to Google Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push',  'eu.gcr.io/${PROJECT_ID}/${REPO_NAME}/mlops:${SHORT_SHA}']
+    id: 'Push'
+    args: ['push',  'eu.gcr.io/${PROJECT_ID}/${REPO_NAME}/${SHORT_SHA}']
+
+  # Deploy to cloud run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    id: 'Deploy'
+    args: ['gcloud', 'run', 'services', 'update', '${REPO_NAME}',
+           '--platform=managed', '--image=eu.gcr.io/${PROJECT_ID}/${REPO_NAME}/${SHORT_SHA}',
+           '--region=europe-west1']
 
 # Save test logs to Google Cloud Storage
 artifacts:

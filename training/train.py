@@ -19,7 +19,7 @@ def train_elasticnet() -> None:
     print(x)
 
     start_time = time.time()
-    model = make_pipeline(StandardScaler(), ElasticNetCV(cv=20)).fit(x, y)
+    model = make_pipeline(StandardScaler(), ElasticNetCV(cv=20)).fit(x.values, y.values)
     fit_time = time.time() - start_time
 
     logger.info(f"ElasticNet model training time: {fit_time:.2f}s")
